@@ -16,7 +16,7 @@ public class WriteServiceSteps {
 
     private String givenName;
 
-    @Given("^I create new write service")
+    @Given("^I create new write service$")
     public void i_create_new_write_service() {
         writeService = new WriteService();
     }
@@ -29,5 +29,15 @@ public class WriteServiceSteps {
     @Then("^result is correct$")
     public void result_is_correct() {
         Assert.assertEquals("Expected value should be different", "Hello, Szymon", writeService.action(givenName));
+    }
+
+    @When("^i pass example names$")
+    public void i_pass_example_names() {
+        givenName = "Szymon,Anna,Jan";
+    }
+
+    @Then("^result for multiple names is correct$")
+    public void result_for_multiple_names_is_correct() {
+        Assert.assertEquals("Expected value should be different", "Hello, Szymon, Anna and Jan", writeService.action(givenName));
     }
 }
