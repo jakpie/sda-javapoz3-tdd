@@ -1,4 +1,4 @@
-package com.sda.cucumber;
+package com.sda.cucumber.writeservice;
 
 import com.sda.service.WriteService;
 import cucumber.api.PendingException;
