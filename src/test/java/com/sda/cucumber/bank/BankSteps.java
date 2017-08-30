@@ -8,6 +8,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
 
+import java.util.List;
+
 public class BankSteps {
 
     private Bank bank;
@@ -28,7 +30,7 @@ public class BankSteps {
 
     @And("^I add new user to bank$")
     public void i_add_new_user_to_bank() {
-        bank.addUser(user);
+        bank.addUser(this.user);
     }
 
     @Then("^User is present in bank database$")
@@ -64,6 +66,31 @@ public class BankSteps {
         User userFromDatabase = bank.getUser(this.user.getId());
         boolean result = accountFromDatabase.getOwnerId().equals(userFromDatabase.getId());
         Assert.assertTrue("Attached user is not correct", result);
+    }
+
+    @When("^I create new user with firstName (.*) and lastName (.*) and add it to bank$")
+    public void i_create_new_user_with_firstname_$firstName_and_lastname_$lastName_and_add_it_to_bank
+            (String firstName, String lastName) {
+        this.user = UserFactory.createNewUser(firstName, lastName);
+        i_add_new_user_to_bank();
+    }
+
+    @And("^I create new account for user (.*) and add it to bank$")
+    public void i_create_new_account_for_user_$user_and_add_it_to_bank(Integer id) {
+        this.account = AccountFactory.createAccount(id);
+        i_add_account_to_bank();
+    }
+
+    @Then("^User with id (.*) is present in bank database$")
+    public void user_with_id_$id_is_present_in_bank_database(Integer id) {
+        boolean result = bank.getUser(id) != null;
+        Assert.assertTrue("User with id " + id + " is not present in database", result);
+    }
+
+    @And("^User with id (.*) has (.*) accounts$")
+    public void user_with_id_$id_has_$number_accounts(Integer id, Integer expectedSize) {
+        List<Account> accountsByUser = bank.getAccountsByUser(id);
+        Assert.assertEquals("User should have " + expectedSize + " accounts", expectedSize, Integer.valueOf(accountsByUser.size()));
     }
 
     @After

@@ -2,6 +2,7 @@ package com.sda.bank;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Szymon on 2017-08-30.
@@ -25,6 +26,12 @@ public class Bank {
 
     public void addAccount(Account account) {
         this.accounts.add(account);
+    }
+
+    public List<Account> getAccountsByUser(Integer userId) {
+        return this.accounts.stream()
+                .filter(e -> e.getOwnerId().equals(userId))
+                .collect(Collectors.toList());
     }
 
     public Account getAccount(Integer id) {
