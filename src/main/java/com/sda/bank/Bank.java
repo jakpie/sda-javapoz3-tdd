@@ -23,6 +23,26 @@ public class Bank {
         this.users.add(user);
     }
 
+    public void addAccount(Account account) {
+        this.accounts.add(account);
+    }
+
+    public Account getAccount(Integer id) {
+        Account account = null;
+        if (id < accounts.size() && id >= 0) {
+            account = accounts.get(id);
+        }
+        return account;
+    }
+
+    public User getUser(Integer id) {
+        User user = null;
+        if (id < users.size() && id >= 0) {
+            user = users.get(id);
+        }
+        return user;
+    }
+
     public String getName() {
         return name;
     }

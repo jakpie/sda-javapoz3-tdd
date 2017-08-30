@@ -13,6 +13,11 @@ public class Account {
     public Account() {
     }
 
+    public Account(Integer id, Integer balance) {
+        this.id = id;
+        this.balance = balance;
+    }
+
     public Account(Integer id, Integer balance, Integer ownerId) {
         this.id = id;
         this.balance = balance;
