@@ -19,7 +19,9 @@ public class Bank {
         this.users = new ArrayList<>();
     }
 
-
+    public void addUser(User user) {
+        this.users.add(user);
+    }
 
     public String getName() {
         return name;
