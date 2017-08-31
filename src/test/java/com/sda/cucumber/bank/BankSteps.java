@@ -8,7 +8,12 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class BankSteps {
 
@@ -17,6 +22,8 @@ public class BankSteps {
     private User user;
 
     private Account account;
+
+    private List<User> sortedList;
 
     @Given("^I create new bank$")
     public void i_create_new_bank() {
@@ -38,7 +45,6 @@ public class BankSteps {
         boolean result = bank.getUsers().contains(user);
         Assert.assertTrue("User is not present in bank", result);
     }
-
     @And("^I create new account$")
     public void i_create_new_account() {
         this.account = AccountFactory.createAccount();
@@ -102,6 +108,22 @@ public class BankSteps {
     public void amount_of_money_$amount_is_stored_in_account(Integer amount) {
         Account accountFromBank = bank.getAccount(this.account.getId());
         Assert.assertEquals("Account balance is not correct", amount, accountFromBank.getBalance());
+    }
+
+    @And("^I deposit (.*) to account with id (.*)$")
+    public void i_deposit_$amount_to_account_with_id_$id(Integer amount, Integer id) {
+        this.bank.depositFor(amount, id);
+    }
+
+    @And("^I list sorted users by balance$")
+    public void i_list_sorted_users_by_balance() {
+        this.sortedList = this.bank.getSortedUsersByBalance();
+    }
+
+    @Then("^User with id (.*) is on top of the sorted list$")
+    public void user_with_id_$id_is_on_top_of_the_sorted_list(Integer expectedId) {
+        User topUser = this.sortedList.get(0);
+        Assert.assertEquals("There should be different user on top of the list", expectedId, topUser.getId());
     }
 
     @After

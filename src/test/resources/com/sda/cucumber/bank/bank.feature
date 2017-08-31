@@ -44,3 +44,17 @@ Feature: Bank Account
     And I deposit 300 amount of money to account
     Then Account is present in bank database
     And Amount of money 200 is stored in account
+
+  Scenario: I can list sorted users by their balance
+    Given I create new bank
+    When I create new user with firstName Jan and lastName Kowalski and add it to bank
+    And I create new user with firstName Anna and lastName Czerwinska and add it to bank
+    And I create new user with firstName Tomek and lastName Rzepka and add it to bank
+    And I create new account for user 0 and add it to bank
+    And I create new account for user 1 and add it to bank
+    And I create new account for user 2 and add it to bank
+    And I deposit 300 to account with id 0
+    And I deposit 100 to account with id 1
+    And I deposit -1000 to account with id 2
+    And I list sorted users by balance
+    Then User with id 0 is on top of the sorted list

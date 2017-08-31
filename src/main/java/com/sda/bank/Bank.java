@@ -50,6 +50,17 @@ public class Bank {
         return user;
     }
 
+    public List<User> getSortedUsersByBalance() {
+        return accounts.stream()
+                .collect(Collectors.groupingBy(account -> account.getOwnerId()))
+                .entrySet()
+                .stream()
+                .map(e -> UserSummary.convert(e))
+                .sorted()
+                .map(e -> getUser(e.getUserId()))
+                .collect(Collectors.toList());
+    }
+
     public void depositFor(Integer amount, Integer accountId) {
         Account account = getAccount(accountId);
         account.setBalance(account.getBalance() + amount);
