@@ -34,3 +34,13 @@ Feature: Bank Account
     And I deposit 100 amount of money to account
     Then Account is present in bank database
     And Amount of money 100 is stored in account
+
+  Scenario: I can deposit multiple to same account
+    Given I create new bank
+    When I create new account
+    And I add account to bank
+    And I deposit 150 amount of money to account
+    And I deposit -250 amount of money to account
+    And I deposit 300 amount of money to account
+    Then Account is present in bank database
+    And Amount of money 200 is stored in account
