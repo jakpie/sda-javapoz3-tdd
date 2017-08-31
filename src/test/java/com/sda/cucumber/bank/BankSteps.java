@@ -93,6 +93,17 @@ public class BankSteps {
         Assert.assertEquals("User should have " + expectedSize + " accounts", expectedSize, Integer.valueOf(accountsByUser.size()));
     }
 
+    @And("^I deposit (.*) amount of money to account$")
+    public void i_deposit_$amount_amount_of_money_to_account(Integer amount) {
+        bank.depositFor(amount, this.account.getId());
+    }
+
+    @And("^Amount of money (.*) is stored in account$")
+    public void amount_of_money_$amount_is_stored_in_account(Integer amount) {
+        Account accountFromBank = bank.getAccount(this.account.getId());
+        Assert.assertEquals("Account balance is not correct", amount, accountFromBank.getBalance());
+    }
+
     @After
     public void clearFactories() {
         UserFactory.clearIndex();
